@@ -5,6 +5,7 @@
  */
 package cl.swarm.enrutamientomesh;
 
+import cl.swarm.realworld.Device;
 import java.util.Random;
 import cl.swarm.structures.Graph;
 
@@ -60,5 +61,9 @@ public class MeshNetwork {
       System.out.println("SubGrafo de expansión mínima");
       theGraph.mst();
       System.out.println();
+      Device nodo = new Device("123",1,1,theGraph);
+      do{
+          
+      }while(true);
     }
 }
