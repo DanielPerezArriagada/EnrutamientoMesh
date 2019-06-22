@@ -10,16 +10,16 @@ package structures;
  * @author danie
  */
 public class Link {
-    public float dData; //Representa el peso de la arista
+    public int dData; //Representa el peso de la arista (distancia en este caso)
     public Vertex vertex;
     public int indexOnArray;
     public Link next;              // next link in list
 // -------------------------------------------------------------
-    public Link(Vertex vertex, int index, float peso) // constructor
+    public Link(Vertex vertex, int index, int distance) // constructor
     {
     this.vertex = vertex;
     this.indexOnArray = index;
-    this.dData = peso;
+    this.dData = distance;
     }
 // -------------------------------------------------------------
     public void displayLink()      // display ourself

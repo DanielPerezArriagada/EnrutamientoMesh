@@ -34,10 +34,10 @@ public class Graph {
       vertexList[nVerts++] = new Vertex(lab, device);
       }
 // ------------------------------------------------------------
-   public void addEdge(int start, int end, float peso)
+   public void addEdge(int start, int end, int distance)
       {
-      adjacency[start].insert(vertexList[end], end, peso);
-      adjacency[end].insert(vertexList[start], start, peso);
+      adjacency[start].insert(vertexList[end], end, distance);
+      adjacency[end].insert(vertexList[start], start, distance);
       }
 // ------------------------------------------------------------
    public void displayVertex(int v)

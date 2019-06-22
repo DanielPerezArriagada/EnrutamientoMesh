@@ -18,7 +18,7 @@ public class Emesh {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /* Los grafos generados aleatoriamente pueden no contener sólo enlaces simples.
+       /* Los grafos generados aleatoriamente pueden no contener sólo enlaces simples.
        * Se utilizó una lista enlazada ordenada por pesos para generar
        * el subgrafo de mínima expansión en lugar de la matriz de adjacencia. De esta
        * forma, el primer vértice visitado siempre será el de la arista con menor peso.
@@ -36,25 +36,33 @@ public class Emesh {
           devices[i].network.addVertex(devices[j].getIdentifier(), devices[j]);
         }
       }
-
-
-      float min = 0.000001f;
-      int max = 1;
-      Random r = new Random();
-      //Creando aristas con sus respectivos pesos
-      int cantidadDeVertices = 13;
-      for(int i = 0; i < cantidadDeVertices; i++){
-          //Aplicamos un par de aristas extra por cada vértice para tener redundancia
-          for(int k = 0; k < 3; k++){
-            int j = i;
-            //Nos aseguramos de que la arista no referencie al mismo vértice
-            while(j == i){
-                j = r.nextInt(cantidadDeVertices);
-            }
-            float peso = min + r.nextFloat() * (max - min);
-            //theGraph.addEdge(i, j, peso);
-          }
+      
+      //Se agregan las adyacencias y los pesos de las aristas
+      for(int i = 0; i<21; i++){
+          devices[i].network.addEdge(0,2,150);
+          devices[i].network.addEdge(2,1,250);
+          devices[i].network.addEdge(2,3,140);
+          devices[i].network.addEdge(3,5,110);
+          devices[i].network.addEdge(4,5,120);
+          devices[i].network.addEdge(5,7,210);
+          devices[i].network.addEdge(7,6,200);
+          devices[i].network.addEdge(6,9,290);
+          devices[i].network.addEdge(6,8,240);
+          devices[i].network.addEdge(8,17,190);
+          devices[i].network.addEdge(17,20,290);
+          devices[i].network.addEdge(20,12,100);
+          devices[i].network.addEdge(12,14,120);
+          devices[i].network.addEdge(12,13,90);
+          devices[i].network.addEdge(12,10,100);
+          devices[i].network.addEdge(12,11,80);
+          devices[i].network.addEdge(11,10,160);
+          devices[i].network.addEdge(14,15,240);
+          devices[i].network.addEdge(15,16,290);
+          devices[i].network.addEdge(17,18,130);
+          devices[i].network.addEdge(18,19,120);
+          devices[i].network.addEdge(13,14,80);
       }
+      devices[0].network.dfs();
       do{
           
       }while(true);

@@ -18,13 +18,13 @@ public class SortedList {
    public boolean isEmpty()            // true if no links
       { return (first==null); }
 // -------------------------------------------------------------
-   public void insert(Vertex vertex, int index, float peso)        // insert, in order
+   public void insert(Vertex vertex, int index, int distance)        // insert, in order
       {
-      Link newLink = new Link(vertex, index, peso);    // make new link
+      Link newLink = new Link(vertex, index, distance);    // make new link
       Link previous = null;            // start at first
       Link current = first;
                                        // until end of list,
-      while(current != null && peso > current.dData)
+      while(current != null && distance > current.dData)
          {                             // or key > current,
          previous = current;
          current = current.next;       // go to next item
