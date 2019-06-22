@@ -3,19 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.swarm.realworld;
+package realworld;
 
-import cl.swarm.structures.Graph;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
+import structures.Graph;
 
 /**
  *
  * @author danie
  */
 public class Device {
-    
     private boolean on;
     private char identifier;
     public Graph network;

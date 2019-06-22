@@ -3,19 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.swarm.enrutamientomesh;
+package emesh;
 
-import cl.swarm.realworld.Device;
 import java.util.Random;
-import cl.swarm.structures.Graph;
-
+import realworld.Device;
+import structures.Graph;
 /**
  *
  * @author danie
  */
-public class MeshNetwork {
+public class Emesh {
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-      /* Los grafos generados aleatoriamente pueden no contener sólo enlaces simples.
+        /* Los grafos generados aleatoriamente pueden no contener sólo enlaces simples.
        * Se utilizó una lista enlazada ordenada por pesos para generar
        * el subgrafo de mínima expansión en lugar de la matriz de adjacencia. De esta
        * forma, el primer vértice visitado siempre será el de la arista con menor peso.
@@ -56,4 +59,5 @@ public class MeshNetwork {
           
       }while(true);
     }
+    
 }

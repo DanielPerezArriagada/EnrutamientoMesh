@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.swarm.structures;
+package structures;
 
-import cl.swarm.realworld.Device;
+import realworld.Device;
 
 /**
  *

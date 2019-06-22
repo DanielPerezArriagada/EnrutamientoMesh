@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.swarm.structures;
+package structures;
 
-import cl.swarm.realworld.Device;
+import realworld.Device;
 
 /**
  *
@@ -14,7 +14,7 @@ import cl.swarm.realworld.Device;
 public class Vertex {
     public char label;        // label (e.g. 'A')
     public Device device;
-   public boolean wasVisited;
+    public boolean wasVisited;
 // ------------------------------------------------------------
    public Vertex(char lab, Device device)   // constructor
       {
