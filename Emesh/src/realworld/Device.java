@@ -6,6 +6,8 @@
 package realworld;
 
 import structures.Graph;
+import structures.Link;
+import structures.SortedList;
 
 /**
  *
@@ -49,10 +51,6 @@ public class Device {
 
     public void sendRoutedPackage(Device to, String message){
         //Calcular ruta
-        if(to.indexOnArray == this.indexOnArray){
-            System.out.println("El paquete ha sido recibido por el nodo " + this.identifier);
-            return;
-        }
         int[] route = this.network.searchRoute(this.indexOnArray, to.indexOnArray);
         System.out.print("Ruta calculada por el nodo " + this.identifier + ": ");
         for(int i = 0; i<route.length; i++){
@@ -62,12 +60,37 @@ public class Device {
         //Detectar primer intermediario
         int intermediary = route[1];
         //Enviar paquete
-        this.network.vertexList[intermediary].device.sendRoutedPackage(to, message);
+        //Nodos adyacentes a este
+        SortedList adj = this.network.adjacency[this.indexOnArray];
+        //recorro los nodos adyacentes enviando el paquete
+        Link l = adj.getFirst();
+        do{
+            l.vertex.device.recvRoutedPackage(to, intermediary, message);
+            l = l.next;
+            if(l == null){
+                break;
+            }
+        }while(true);
+        //this.network.vertexList[intermediary].device.recvRoutedPackage(to, intermediary ,message);
     }
 
     public void sendBroadcastPackage(Device to, String message){
         //Crear paquete
         BroadcastPackage p = new BroadcastPackage(this, to, message, this.quantityOfJumps);
         //Enviar paquete(?)
+    }
+    
+    public void recvRoutedPackage(Device to, int intermediary, String message){
+        if(to.indexOnArray == this.indexOnArray){
+            //Es este nodo el receptor
+            System.out.println("El paquete ha sido recibido por el nodo " + this.identifier);
+            return;
+        }
+        if(intermediary == this.indexOnArray){
+            //Este nodo es intermediario
+            this.sendRoutedPackage(to, message);
+            return;
+        }
+        System.out.println("El nodo " + this.identifier + " escuchó el paquete pero no lo replica");
     }
 }

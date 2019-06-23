@@ -14,7 +14,7 @@ import realworld.Device;
 public class Graph {
    private final int MAX_VERTS = 21;
    public Vertex vertexList[]; // list of vertices
-   private SortedList adjacency[];      // adjacency matrix
+   public SortedList adjacency[];      // adjacency matrix
    private int nVerts;          // current number of vertices
    private StackX theStack;
    private PriorityQ theQueue;
@@ -115,9 +115,7 @@ public class Graph {
          for(int j=0; j<nVerts; j++)          // reset flags
             vertexList[j].wasVisited = false;
       }  // end mst()
-   
-   
-   
+  
    public void bfs()                   // breadth-first search
       {                                // begin at vertex 0
       vertexList[0].wasVisited = true; // mark it

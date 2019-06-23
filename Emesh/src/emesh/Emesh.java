@@ -63,7 +63,7 @@ public class Emesh {
           devices[i].network.addEdge(18,19,120);
           devices[i].network.addEdge(13,14,80);
       }
-      devices[0].sendRoutedPackage(devices[20], "Hola");
+      devices[0].sendRoutedPackage(devices[7], "Hola");
     }
     
 }
