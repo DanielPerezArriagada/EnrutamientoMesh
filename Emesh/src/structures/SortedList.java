@@ -67,4 +67,7 @@ public class SortedList {
          }
       return current;                    // found it
       }
+    public Link getFirst(){
+        return first;
+    }
 }

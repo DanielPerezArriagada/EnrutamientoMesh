@@ -27,7 +27,8 @@ public class Emesh {
       Device devices[] = new Device[21];
       int index = 0;
       for (char c = 'A'; c <= 'U'; c++) {
-          devices[index++] = new Device(c, new Graph());
+          devices[index] = new Device(c, new Graph(),index);
+          index++;
       }
 
       //Agrego los vértices a cada grafo
@@ -62,10 +63,7 @@ public class Emesh {
           devices[i].network.addEdge(18,19,120);
           devices[i].network.addEdge(13,14,80);
       }
-      devices[0].network.dfs();
-      do{
-          
-      }while(true);
+      devices[0].sendRoutedPackage(devices[20], "Hola");
     }
     
 }

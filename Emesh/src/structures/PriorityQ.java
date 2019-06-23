@@ -5,6 +5,7 @@
  */
 package structures;
 
+
 /**
  *
  * @author danie
@@ -12,17 +13,17 @@ package structures;
 public class PriorityQ {
     // array in sorted order, from max at 0 to min at size-1
    private int maxSize;
-   private long[] queArray;
+   private Link[] queArray;
    private int nItems;
 //-------------------------------------------------------------
    public PriorityQ(int s)          // constructor
       {
       maxSize = s;
-      queArray = new long[maxSize];
+      queArray = new Link[maxSize];
       nItems = 0;
       }
 //-------------------------------------------------------------
-   public void insert(long item)    // insert item
+   public void insert(Link item)    // insert item
       {
       int j;
 
@@ -32,7 +33,7 @@ public class PriorityQ {
          {
          for(j=nItems-1; j>=0; j--)         // start at end,
             {
-            if( item > queArray[j] )      // if new item larger,
+            if( item.dData > queArray[j].dData )      // if new item larger,
                queArray[j+1] = queArray[j]; // shift upward
             else                          // if smaller,
                break;                     // done shifting
@@ -42,10 +43,10 @@ public class PriorityQ {
          }  // end else (nItems > 0)
       }  // end insert()
 //-------------------------------------------------------------
-   public long remove()             // remove minimum item
+   public Link remove()             // remove minimum item
       { return queArray[--nItems]; }
 //-------------------------------------------------------------
-   public long peekMin()            // peek at minimum item
+   public Link peekMin()            // peek at minimum item
       { return queArray[nItems-1]; }
 //-------------------------------------------------------------
    public boolean isEmpty()         // true if queue is empty

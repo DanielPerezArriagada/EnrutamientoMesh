@@ -14,14 +14,16 @@ import structures.Graph;
 public class Device {
     private boolean on;
     private char identifier;
+    public int indexOnArray;
     public Graph network;
     private StatusTimer statusTimer;
     private int quantityOfJumps; //Cuántos saltos puede dar un paquete enviado por broadcast
     
-    public Device(char identifier, Graph network){
+    public Device(char identifier, Graph network, int indexOnArray){
         this.identifier = identifier;
         this.network = network;
         this.setStatusTimer();
+        this.indexOnArray = indexOnArray;
     }
     
     private void setStatusTimer(){
@@ -47,10 +49,20 @@ public class Device {
 
     public void sendRoutedPackage(Device to, String message){
         //Calcular ruta
-
+        if(to.indexOnArray == this.indexOnArray){
+            System.out.println("El paquete ha sido recibido por el nodo " + this.identifier);
+            return;
+        }
+        int[] route = this.network.searchRoute(this.indexOnArray, to.indexOnArray);
+        System.out.print("Ruta calculada por el nodo " + this.identifier + ": ");
+        for(int i = 0; i<route.length; i++){
+            System.out.print(this.network.vertexList[route[i]].label);
+        }
+        System.out.println();
         //Detectar primer intermediario
-
+        int intermediary = route[1];
         //Enviar paquete
+        this.network.vertexList[intermediary].device.sendRoutedPackage(to, message);
     }
 
     public void sendBroadcastPackage(Device to, String message){
