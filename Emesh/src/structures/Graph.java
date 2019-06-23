@@ -12,7 +12,7 @@ import realworld.Device;
  * @author danie
  */
 public class Graph {
-   private final int MAX_VERTS = 21;
+   public final int MAX_VERTS = 22;
    public Vertex vertexList[]; // list of vertices
    public SortedList adjacency[];      // adjacency matrix
    private int nVerts;          // current number of vertices
@@ -28,7 +28,7 @@ public class Graph {
       for(int x=0; x<MAX_VERTS; x++)      // set adjacency
         adjacency[x] = new SortedList();
       theStack = new StackX();
-      theQueue = new PriorityQ(21);
+      theQueue = new PriorityQ(MAX_VERTS);
       }  // end constructor
 // ------------------------------------------------------------
    public void addVertex(char lab, Device device)
@@ -142,7 +142,7 @@ public class Graph {
       }  // end bfs()
 // -------------------------------------------------------------
    
-   public int[] searchRoute(int from, int to){                   // breadth-first search
+   public int[] searchRoute(Device from, Device to){                   // breadth-first search
         //Primero anotamos las distancias desde el nodo de origen a todos los demás en una matriz
         int[] distances = new int[this.nVerts];
         int[] previos = new int[this.nVerts];
@@ -152,11 +152,11 @@ public class Graph {
             previos[i] = -1;
         }
         // begin at vertex 0
-        vertexList[from].wasVisited = true; // mark it
-        distances[from] = 0;
+        vertexList[from.indexOnArray].wasVisited = true; // mark it
+        distances[from.indexOnArray] = 0;
         //displayVertex(from);                // display it
         //theQueue.insert(0);              // insert at tail
-        theQueue.insert(new Link(vertexList[from],from,0));
+        theQueue.insert(new Link(vertexList[from.indexOnArray],from.indexOnArray,0));
         Link v2;
 
         while( !theQueue.isEmpty() ){// until queue empty,
@@ -166,10 +166,12 @@ public class Graph {
             SortedList adjacentNodes = adjacency[v1.indexOnArray];
             Link link = adjacentNodes.getFirst();
             do{
-                if(!link.vertex.wasVisited){
+                //Si el nodo no ha sido visitado y si figura como conectado para el nodo que está consultando la ruta
+                if(!link.vertex.wasVisited && from.checkStatus(link.vertex.device)){
                     this.relaxation(v1, link, link.dData, distances, theQueue, previos);
                 }
                 link = link.next;
+
                 if(link == null){
                     break;
                 }
@@ -181,7 +183,7 @@ public class Graph {
         for(int j=0; j<nVerts; j++)             // reset flags
            vertexList[j].wasVisited = false;
         
-        return getRoute(to, previos);
+        return getRoute(to.indexOnArray, previos);
       }  // end search()
 // -------------------------------------------------------------
    

@@ -10,7 +10,7 @@ package structures;
  * @author danie
  */
 public class StackX {
-   private final int SIZE = 20;
+   private final int SIZE = 22;
    private int[] st;
    private int top;
 // ------------------------------------------------------------
