@@ -73,21 +73,27 @@ public class Emesh {
       
       while(true)
          {
-         System.out.println("Inserte la inicial de la acción a realizar: ");
-         System.out.println("Apagar un nodo: a");
-         System.out.println("Encender un nodo: e");
-         System.out.println("Broadcast a un nodo: b");
-         System.out.println("Paquete enrutado a un nodo: p");
+         System.out.println("///////////////////////////////////////////////////");
+         System.out.println("// Inserte la inicial de la acción a realizar: ");
+         System.out.println("// Apagar un nodo: a");
+         System.out.println("// Encender un nodo: e");
+         System.out.println("// Broadcast a un nodo: b");
+         System.out.println("// Paquete enrutado a un nodo: p");
+         System.out.println("///////////////////////////////////////////////////");
          int choice = getChar();
+         int value;
+         int value2;
          switch(choice)
             {
             case 'a':
-               devices[21].turnOff();
+               System.out.println("Ingresa el index del nodo que deseas apagar");
+               value = getInt();
+               devices[value].turnOff();
                break;
             case 'e':
-               //System.out.print("Enter value to insert: ");
-               //value = getInt();
-               //theTree.insert(value, value + 0.9);
+               System.out.println("Ingresa el index del nodo que deseas encender");
+               value = getInt();
+               devices[value].turnOn();
                break;
             case 'b':
                //System.out.print("Enter value to find: ");
@@ -95,10 +101,11 @@ public class Emesh {
 
                break;
             case 'p':
-               //System.out.print("Enter value to delete: ");
-               //value = getInt();
-               //boolean didDelete = theTree.delete(value);
-                devices[6].sendRoutedPackage(devices[13], "Hola");
+               System.out.print("Ingresa el index del emisor del paquete");
+               value = getInt();
+               System.out.print("Ingresa el index del receptor del paquete");
+               value2 = getInt();
+                devices[value].sendRoutedPackage(devices[value2], "BLABLABLA");
                break;
             default:
                System.out.println("Acción inválida");
@@ -122,8 +129,23 @@ public class Emesh {
 //-------------------------------------------------------------
    public static int getInt() throws IOException
       {
-      String s = getString();
-      return Integer.parseInt(s);
+      String s;
+      int i = 0;
+      boolean valid = false;
+      do{
+        try{
+            s = getString();
+            i = Integer.parseInt(s);
+            if(i<0 || i>21){
+                System.out.println("Sólo existen 22 nodos. El número debe estar en el intervalo [0,21]");
+            }else{
+                valid = true;
+            }
+        }catch(Exception e){
+            System.out.println("Entrada no válida, debe ser un número");
+        }
+      }while(!valid);
+      return i;
       }
     
 }
