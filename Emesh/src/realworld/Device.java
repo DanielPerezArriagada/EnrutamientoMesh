@@ -109,15 +109,20 @@ public class Device {
                 break;
             }
         }while(true);
-        //this.network.vertexList[intermediary].device.recvRoutedPackage(to, intermediary ,message);
     }
-
+    
+    /*
+    * Quería crear la forma de enviar paquetes broadcast también, para ver la comparativa,
+    * pero quizás no alcance, así que lo dejo en stand by
+    */
     public void sendBroadcastPackage(Device to, String message){
-        //Crear paquete
-        BroadcastPackage p = new BroadcastPackage(this, to, message, this.quantityOfJumps);
+        
         //Enviar paquete(?)
     }
     
+    /*
+    * Este método se encarga de recibir los paquetes y ver si debe reenviarlos o no (es intermediario, destino o ninguno)
+    */
     public void recvRoutedPackage(Device to, Device from, int intermediary, String message){
         if(!this.itsOn()){
             //Si está apagado este nodo, no hacemos nada
@@ -136,9 +141,13 @@ public class Device {
         System.out.println("El nodo " + this.identifier + " escuchó el paquete pero no lo replica");
     }
     
+    /*
+    * Este método verifica si este nodo considera a otro como activo fijándose en su tabla de status.
+    * Si el tiempo que ha pasado desde el último status de un nodo es mayor a 5 segundos (en este caso), es porque está inactivo
+    */
     public boolean checkStatus(Device device){
         //Si han pasado más de 5 segundos desde el anterior status
-        if(System.currentTimeMillis() - this.lastStatus[device.indexOnArray] > 5000L){
+        if(System.currentTimeMillis() - this.lastStatus[device.indexOnArray] > 5500L){
             return false;
         }
         //Si no, retornamos que el nodo si figura encendido
