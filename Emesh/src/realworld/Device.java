@@ -5,6 +5,7 @@
  */
 package realworld;
 
+import emesh.PackageSupervisor;
 import structures.Graph;
 import structures.Link;
 import structures.SortedList;
@@ -27,7 +28,7 @@ public class Device {
         this.network = network;
         this.setStatusTimer();
         this.indexOnArray = indexOnArray;
-        this.quantityOfJumps = network.MAX_VERTS;
+        this.quantityOfJumps = 10;
         this.lastStatus = new long[network.MAX_VERTS];
         //Seteo como que hace 10 segundos que no sé nada de los nodos, para que aparezcan apagados para este nodo
         for(int i = 0; i<network.MAX_VERTS; i++){
@@ -83,7 +84,7 @@ public class Device {
         }
     }
 
-    public void sendRoutedPackage(Device to, String message){
+    public void sendRoutedPackage(Device to, String message, PackageSupervisor supervisor){
         if(!this.checkStatus(to)){
             System.out.println("El nodo al que se le intenta enviar el paquete está desvinculado de la red");
             return;
@@ -101,9 +102,10 @@ public class Device {
         //Nodos adyacentes a este
         SortedList adj = this.network.adjacency[this.indexOnArray];
         //recorro los nodos adyacentes enviando el paquete
+        supervisor.transmited();
         Link l = adj.getFirst();
         do{
-            l.vertex.device.recvRoutedPackage(to, this, intermediary, message);
+            l.vertex.device.recvRoutedPackage(to, this, intermediary, message, supervisor);
             l = l.next;
             if(l == null){
                 break;
@@ -115,27 +117,84 @@ public class Device {
     * Quería crear la forma de enviar paquetes broadcast también, para ver la comparativa,
     * pero quizás no alcance, así que lo dejo en stand by
     */
-    public void sendBroadcastPackage(Device to, String message){
+    public void sendBroadcastPackage(Device to, String message, PackageSupervisor supervisor){
+        //Traer los nodos adyacentes
+        SortedList adj = this.network.adjacency[this.indexOnArray];
+        supervisor.transmited();
+        //recorro los nodos adyacentes enviando el paquete
+        Link l = adj.getFirst();
+        do{
+            l.vertex.device.recvBroadcastPackage(this, to, message, this.quantityOfJumps, supervisor);
+            l = l.next;
+            if(l == null){
+                break;
+            }
+        }while(true);
+    }
+    
+    public void recvBroadcastPackage(Device from, Device to, String message, int jump, PackageSupervisor supervisor){
+        if(!this.itsOn()){
+            //Si el nodo está apagado, no hace nada
+            return;
+        }
+        //Lo cuento como recibido
+        supervisor.received();
+        if(this.indexOnArray == to.indexOnArray){
+            //El paquete es de este nodo, no lo vuelvo a replicar
+            //Lo cuento como recibido por el destinatario
+            supervisor.receivedByOwner();
+            System.out.println("El nodo " + this.identifier + " ha recibido el paquete enviado por el nodo " + from.identifier);
+        }else{
+            //No era para mi, así que lo replico, sólo si este salto es mayor a 0
+            if(from.indexOnArray == this.indexOnArray){
+                //El paquete era mío, así que no hago nada al respecto
+                System.out.println("El nodo " + this.identifier + " ha recibido el paquete que él mismo envío, así que no lo replica");
+                return;
+            }
+            if(jump > 0){
+                System.out.println("El paquete no es para el nodo " + this.identifier + " por lo que lo envía por Broadcast");
+                supervisor.transmited();
+                //Traer los nodos adyacentes
+                SortedList adj = this.network.adjacency[this.indexOnArray];
+                //recorro los nodos adyacentes enviando el paquete
+                Link l = adj.getFirst();
+                do{
+                    l.vertex.device.recvBroadcastPackage(from, to, message, jump-1, supervisor);
+                    l = l.next;
+                    if(l == null){
+                        break;
+                    }
+                }while(true);
+            }else{
+                System.out.println("El paquete no es para el nodo " + this.identifier + " pero no lo replica porque se acabaron los saltos");
+            }
+        }
         
-        //Enviar paquete(?)
+        
     }
     
     /*
     * Este método se encarga de recibir los paquetes y ver si debe reenviarlos o no (es intermediario, destino o ninguno)
     */
-    public void recvRoutedPackage(Device to, Device from, int intermediary, String message){
+    public void recvRoutedPackage(Device to, Device from, int intermediary, String message, PackageSupervisor supervisor){
         if(!this.itsOn()){
             //Si está apagado este nodo, no hacemos nada
             return;
         }
+        //Como recibimos el paquete, lo contamos
+        supervisor.received();
         if(to.indexOnArray == this.indexOnArray){
             //Es este nodo el receptor
+            //Como somos nosotros el receptor, lo anotamos en el supervisor
+            supervisor.receivedByOwner();
             System.out.println("El paquete enviado por el nodo " + from.identifier +" ha sido recibido por el nodo " + this.identifier);
             return;
         }
         if(intermediary == this.indexOnArray){
             //Este nodo es intermediario
-            this.sendRoutedPackage(to, message);
+            //Anotamos que transmitiremos el paquete
+            supervisor.transmited();
+            this.sendRoutedPackage(to, message, supervisor);
             return;
         }
         System.out.println("El nodo " + this.identifier + " escuchó el paquete pero no lo replica");

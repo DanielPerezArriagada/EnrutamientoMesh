@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import realworld.Device;
 import structures.Graph;
+
 /**
  *
  * @author danie
@@ -68,8 +69,8 @@ public class Emesh {
       for(int i = 0; i<22; i++){
           devices[i].turnOn();
       }
-      //Insertar acá el menú
-      devices[0].sendRoutedPackage(devices[15], "Hola");
+      
+      //Menú
       
       while(true)
          {
@@ -83,6 +84,7 @@ public class Emesh {
          int choice = getChar();
          int value;
          int value2;
+         PackageSupervisor supervisor;
          switch(choice)
             {
             case 'a':
@@ -98,14 +100,22 @@ public class Emesh {
             case 'b':
                //System.out.print("Enter value to find: ");
                //value = getInt();
-
+               System.out.print("Ingresa el index del emisor del paquete");
+               value = getInt();
+               System.out.print("Ingresa el index del receptor del paquete");
+               value2 = getInt();
+               supervisor = new PackageSupervisor();
+               devices[value].sendBroadcastPackage(devices[value2], "BLABLABLA", supervisor);
+               supervisor.getInformation();
                break;
             case 'p':
                System.out.print("Ingresa el index del emisor del paquete");
                value = getInt();
                System.out.print("Ingresa el index del receptor del paquete");
                value2 = getInt();
-                devices[value].sendRoutedPackage(devices[value2], "BLABLABLA");
+               supervisor = new PackageSupervisor();
+               devices[value].sendRoutedPackage(devices[value2], "BLABLABLA", supervisor);
+               supervisor.getInformation();
                break;
             default:
                System.out.println("Acción inválida");

@@ -40,7 +40,7 @@ public class StatusTimer implements ActionListener{
         SortedList adj = this.device.network.adjacency[this.device.indexOnArray];
         Link link = adj.getFirst();
         do{
-            link.vertex.device.recvStatus(this.device, this.device.quantityOfJumps);
+            link.vertex.device.recvStatus(this.device, this.device.network.MAX_VERTS);
             link = link.next;
             if(link == null){
                 break;
