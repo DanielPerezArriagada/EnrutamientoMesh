@@ -28,7 +28,7 @@ public class Device {
         this.network = network;
         this.setStatusTimer();
         this.indexOnArray = indexOnArray;
-        this.quantityOfJumps = 10;
+        this.quantityOfJumps = 11;
         this.lastStatus = new long[network.MAX_VERTS];
         //Seteo como que hace 10 segundos que no sé nada de los nodos, para que aparezcan apagados para este nodo
         for(int i = 0; i<network.MAX_VERTS; i++){
@@ -192,8 +192,6 @@ public class Device {
         }
         if(intermediary == this.indexOnArray){
             //Este nodo es intermediario
-            //Anotamos que transmitiremos el paquete
-            supervisor.transmited();
             this.sendRoutedPackage(to, message, supervisor);
             return;
         }

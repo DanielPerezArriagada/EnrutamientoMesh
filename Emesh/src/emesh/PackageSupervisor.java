@@ -33,10 +33,23 @@ public class PackageSupervisor {
     }
     
     public void getInformation(){
+        //Corrijo la palabra a utilizar (veces o vez)
+        String receptionWord = " veces.";
+        String validReceptionWord = " veces.";
+        String transmitionWord = " veces.";
+        if(receptionCounter == 1){
+            receptionWord = " vez.";
+        }
+        if(validReceptionCounter == 1){
+            validReceptionWord = " vez.";
+        }
+        if(transmitionCounter == 1){
+            transmitionWord = " vez.";
+        }
         System.out.println("----------------------------------------------------------------");
-        System.out.println("El paquete fue recepcionado " + receptionCounter + " veces.");
-        System.out.println("El paquete fue recepcionado por el destinatario " + validReceptionCounter + " veces.");
-        System.out.println("El paquete fue transmitido " + transmitionCounter + " veces");
+        System.out.println("El paquete fue recepcionado " + receptionCounter + receptionWord);
+        System.out.println("El paquete fue recepcionado por el destinatario " + validReceptionCounter + validReceptionWord);
+        System.out.println("El paquete fue transmitido " + transmitionCounter + transmitionWord);
         System.out.println("----------------------------------------------------------------");
     }
 }
